@@ -24,7 +24,6 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
             ps.setString(1, vendor_email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            System.out.println("Correct email and password");
             return rs.next();
 
 
