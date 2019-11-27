@@ -6,7 +6,9 @@ public class FoodMenu implements Serializable {
     private int food_id, food_price;
     private String food_name;
 
+    public FoodMenu() {
 
+    }
 
     public FoodMenu(int food_id, String food_name, int food_price) {
         this.food_id=food_id;
