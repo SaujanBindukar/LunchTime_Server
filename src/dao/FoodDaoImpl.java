@@ -46,4 +46,20 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
         }
 
     }
+
+    @Override
+    public ResultSet getFoodByName(String foodName) throws RemoteException {
+        try {
+            String sql = "SELECT * FROM menu WHERE food_name=?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, foodName);
+            ResultSet rs = ps.executeQuery();
+            return rs;
+
+        } catch (SQLException e) {
+            throw  new Error(e);
+
+        }
+
+    }
 }
