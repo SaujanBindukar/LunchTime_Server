@@ -1,14 +1,12 @@
 package dao;
 
 import bll.FoodMenu;
+import javafx.scene.control.Alert;
 import utils.DbConnection;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
     Connection cn = DbConnection.myConnection();
@@ -58,6 +56,20 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
 
         } catch (SQLException e) {
             throw  new Error(e);
+
+        }
+
+    }
+
+    @Override
+    public void deleteMenu(String foodName) throws RemoteException {
+        try {
+
+            String sql = "DELETE FROM menu WHERE food_name=?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, foodName );
+            ps.executeUpdate();
+        } catch (SQLException e) {
 
         }
 

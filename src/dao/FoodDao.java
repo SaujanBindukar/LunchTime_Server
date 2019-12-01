@@ -11,4 +11,5 @@ public interface FoodDao extends Remote {
     ResultSet showMenu() throws RemoteException;
     void addMenu(FoodMenu fm) throws RemoteException;
     ResultSet getFoodByName(String foodName) throws RemoteException;
+    void deleteMenu(String foodName) throws RemoteException;
 }
