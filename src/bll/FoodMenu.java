@@ -1,11 +1,11 @@
 package bll;
 
-import java.io.Serializable;
 
-public class FoodMenu implements Serializable {
+
+public class FoodMenu implements java.io.Serializable {
     private int food_id, food_price;
     private String food_name;
-    private static final long serialVersionUID =1L;
+    public static final long serialVersionUID =1L;
 
     public FoodMenu() {
 

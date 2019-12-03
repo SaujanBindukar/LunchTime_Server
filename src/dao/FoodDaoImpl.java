@@ -1,9 +1,6 @@
 package dao;
-
 import bll.FoodMenu;
-import javafx.scene.control.Alert;
 import utils.DbConnection;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
@@ -21,12 +18,7 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
 
         } catch (SQLException e) {
             return null;
-
-        }
-
-
-
-    }
+        } }
 
     @Override
     public void addMenu(FoodMenu fm) throws RemoteException {
