@@ -24,7 +24,7 @@ public class StudentImpl extends UnicastRemoteObject implements StudentDao {
             int addingBalance= addBalance;
             int newBalance= curBalance+addingBalance;
 
-            String sql= "UPDATE user SET FirstName= ?, LastName=?, PhoneNumber=?, Balance=?, Email=? WHERE user_id =?";
+            String sql= "UPDATE user SET first_name= ?, last_name=?, phone_number=?, balance=?, email=? WHERE id =?";
             PreparedStatement ps =cn.prepareStatement(sql);
             ps.setString(1, firstName);
             ps.setString(2, lastName);

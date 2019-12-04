@@ -24,10 +24,11 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
     public void addMenu(FoodMenu fm) throws RemoteException {
 
         try {
-            String sql = "INSERT INTO menu(food_name, food_price) VALUES(?,?)";
+            String sql = "INSERT INTO menu(food_name, food_price, picture) VALUES(?,?, ?)";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, fm.getFood_name());
             ps.setInt(2, fm.getFood_price());
+            ps.setString(3, fm.getPicture());
             ps.execute();
 
         } catch (SQLException e) {
@@ -65,5 +66,22 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
 
         }
 
+    }
+
+    @Override
+    public void updateMenu(String food_name, int food_price, int foodId, String picture) throws RemoteException {
+        try{
+            String sql= "UPDATE menu SET food_name= ?, food_price=?, picture=? WHERE food_id =?";
+            PreparedStatement ps =cn.prepareStatement(sql);
+            ps.setString(1, food_name);
+            ps.setInt(2, food_price);
+            ps.setInt(4, foodId);
+            ps.setString(3, picture);
+            ps.executeUpdate();
+
+        }catch(Exception e){
+            System.out.println("Exceoption"+e);
+
+        }
     }
 }
