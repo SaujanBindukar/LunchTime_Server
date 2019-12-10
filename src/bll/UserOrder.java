@@ -6,10 +6,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class UserOrder implements java.io.Serializable {
+    private static final long serialVersionUID = -7273230871957691871L;
     public int order_id,quantity, total_price;
     public Timestamp date;
     public String user_name, food_name, status;
-    public static final long serialVersionUID =2L;
+    //public static final long serialVersionUID =2L;
 
     public UserOrder(int order_id,int quantity, int total_price,
                      String status, Timestamp date, String user_name, String food_name

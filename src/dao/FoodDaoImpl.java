@@ -1,5 +1,6 @@
 package dao;
 import bll.FoodMenu;
+import com.sun.rowset.CachedRowSetImpl;
 import utils.DbConnection;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,7 +15,9 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
     public ResultSet showMenu() throws RemoteException {
         try {
             ResultSet rs= cn.createStatement().executeQuery("select * from menu");
-            return rs;
+            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
 
         } catch (SQLException e) {
             return null;
@@ -45,7 +48,10 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, foodName);
             ResultSet rs = ps.executeQuery();
-            return rs;
+
+            CachedRowSetImpl crs = new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
 
         } catch (SQLException e) {
             throw  new Error(e);
@@ -80,7 +86,7 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
             ps.executeUpdate();
 
         }catch(Exception e){
-            System.out.println("Exceoption"+e);
+            System.out.println("Exception"+e);
 
         }
     }
