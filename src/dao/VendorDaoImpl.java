@@ -10,7 +10,6 @@ import java.util.Date;
 
 public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
     Connection cn = DbConnection.myConnection();
-    //CachedRowSetImpl crs = new CachedRowSetImpl();
     public VendorDaoImpl() throws RemoteException, SQLException {
         super();
     }
@@ -50,14 +49,15 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
     }
 
     @Override
-    public void updateVendorProfile(int vendor_id, String vendor_name, String vendor_email, String vendor_number) throws RemoteException {
+    public void updateVendorProfile(int vendor_id, String vendor_name, String vendor_email, String vendor_number, String picture) throws RemoteException {
             try{
-                String sql= "UPDATE vendor SET vendor_name= ?, vendor_email=?, vendor_number=? WHERE vendor_id =?";
+                String sql= "UPDATE vendor SET vendor_name= ?, vendor_email=?, vendor_number=?, picture=? WHERE vendor_id =?";
                 PreparedStatement ps =cn.prepareStatement(sql);
                 ps.setString(1, vendor_name);
                 ps.setString(2, vendor_email);
                 ps.setString(3, vendor_number);
-                ps.setInt(4, vendor_id);
+                ps.setString(4, picture);
+                ps.setInt(5, vendor_id);
                 ps.executeUpdate();
 
             }catch(Exception e){
@@ -69,11 +69,11 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
     public ResultSet getInfo(int vendor_id) throws RemoteException {
         try{
             Statement statement = cn.createStatement();
-            ResultSet getInfo = statement.executeQuery("SELECT vendor_email, vendor_name , vendor_number " +
+            ResultSet getInfo = statement.executeQuery("SELECT vendor_email, picture, vendor_name , vendor_number " +
                     "FROM vendor WHERE vendor_id ='" + vendor_id + "'");
+
             CachedRowSetImpl crs = new CachedRowSetImpl();
             crs.populate(getInfo);
-
             return crs;
         }
         catch(Exception e){

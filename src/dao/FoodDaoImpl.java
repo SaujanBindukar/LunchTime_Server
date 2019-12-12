@@ -15,6 +15,7 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
     public ResultSet showMenu() throws RemoteException {
         try {
             ResultSet rs= cn.createStatement().executeQuery("select * from menu");
+
             CachedRowSetImpl crs= new CachedRowSetImpl();
             crs.populate(rs);
             return crs;
