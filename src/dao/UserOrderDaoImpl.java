@@ -6,10 +6,7 @@ import utils.DbConnection;
 import javax.sql.rowset.CachedRowSet;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -143,6 +140,23 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
 
 
         }catch (Exception e){
+
+        }
+        return null;
+    }
+
+    @Override
+    public ResultSet getTopUser() throws RemoteException {
+        try{
+            String sql= "SELECT id, sum(total_price) as total_price from user_order GROUP by date DESC LIMIT 5";
+            PreparedStatement ps=cn.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+        }catch (Exception e){
+            System.out.println(e);
 
         }
         return null;
