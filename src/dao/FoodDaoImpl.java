@@ -91,4 +91,21 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
 
         }
     }
+
+    @Override
+    public ResultSet getTotalFood() throws RemoteException {
+        try{
+            String sql="Select count(food_id) as food_id from menu";
+            PreparedStatement ps= cn.prepareStatement(sql);
+            ResultSet rs= ps.executeQuery();
+
+            CachedRowSetImpl crs = new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+        }catch (Exception e){
+
+        }
+        return null;
+    }
 }

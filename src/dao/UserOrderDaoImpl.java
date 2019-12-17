@@ -57,7 +57,8 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
     @Override
     public ResultSet getUserOrderByDate(LocalDate initialDate, LocalDate finalDate) throws RemoteException {
         try{
-            String sql = "select user_order.order_id,user_order.quantity, user_order.total_price,user_order.status,user_order.date, menu.food_name, user.first_name" +
+            String sql = "select user_order.order_id,user_order.quantity," +
+                    " user_order.total_price,user_order.status,user_order.date, menu.food_name, user.first_name" +
                     " FROM user_order " +
                     "INNER JOIN menu ON user_order.food_id= menu.food_id " +
                     "INNER JOIN user ON user_order.id=user.id where date between '"+initialDate+"' and '"+finalDate+"'";
@@ -105,6 +106,43 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
             return  crc;
 
         }catch(Exception e){
+            System.out.print(e);
+
+        }
+        return null;
+    }
+
+    @Override
+    public ResultSet getTotalSales() throws RemoteException {
+
+        try{
+            ResultSet rs= cn.createStatement().executeQuery("SELECT sum(total_price) as total_price FROM user_order ");
+            CachedRowSetImpl crc = new CachedRowSetImpl();
+            crc.populate(rs);
+            return  crc;
+
+        }catch(Exception e){
+            System.out.print(e);
+
+        }
+        return null;
+    }
+
+    @Override
+    public ResultSet getFoodPreference() throws RemoteException {
+
+        try{
+            ResultSet rs= cn.createStatement().executeQuery("SELECT menu.food_name,SUM(user_order.quantity) as quantity " +
+                    "FROM user_order " +
+                    "INNER JOIN menu on user_order.food_id=menu.food_id " +
+                    "GROUP by user_order.food_id " +
+                    "ASC limit 5");
+            CachedRowSetImpl crc = new CachedRowSetImpl();
+            crc.populate(rs);
+            return  crc;
+
+
+        }catch (Exception e){
 
         }
         return null;

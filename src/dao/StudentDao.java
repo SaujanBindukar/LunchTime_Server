@@ -12,4 +12,8 @@ public interface StudentDao extends Remote {
 
     ResultSet searchUser(String userName) throws  RemoteException;
 
+    ResultSet getTotalStudent() throws RemoteException;
+
+    ResultSet getCanteenCoins() throws  RemoteException;
+
 }

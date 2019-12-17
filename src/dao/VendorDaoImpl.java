@@ -59,7 +59,6 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
                 ps.setString(4, picture);
                 ps.setInt(5, vendor_id);
                 ps.executeUpdate();
-
             }catch(Exception e){
                 System.out.println(e);
             }
@@ -80,6 +79,25 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
             System.out.print("Exception: "+e);
         }
 
+        return null;
+    }
+
+    @Override
+    public ResultSet getAllVendorInfo() throws RemoteException {
+
+        try{
+            String sql="select * from vendor";
+            PreparedStatement ps=cn.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+
+            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+        }catch (Exception e){
+            System.out.println(e);
+
+        }
         return null;
     }
 

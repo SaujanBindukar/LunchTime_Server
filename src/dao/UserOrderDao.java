@@ -13,5 +13,7 @@ public interface UserOrderDao extends Remote {
     ResultSet getUserOrderByDate(LocalDate initialDate, LocalDate finalDate) throws  RemoteException; //search userorder by date
     ResultSet getUserOrderByName(String firstName) throws RemoteException;
     ResultSet getSalesDetail() throws RemoteException;
+    ResultSet getTotalSales() throws  RemoteException;
+    ResultSet getFoodPreference() throws  RemoteException;
 
 }

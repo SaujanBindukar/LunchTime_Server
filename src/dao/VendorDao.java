@@ -11,4 +11,6 @@ public interface VendorDao extends Remote  {
     void updateVendorProfile(int vendor_id, String vendor_name, String vendor_email, String vendor_number, String picture) throws RemoteException;
     ResultSet getInfo(int vendor_id) throws RemoteException;
 
+    ResultSet getAllVendorInfo() throws  RemoteException;
+
 }

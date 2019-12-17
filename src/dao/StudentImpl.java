@@ -71,5 +71,43 @@ public class StudentImpl extends UnicastRemoteObject implements StudentDao {
 
     }
 
+    @Override
+    public ResultSet getTotalStudent() throws RemoteException {
+
+        try{
+            String sql= "SELECT sum(balance) as balance, count(id) as id from user";
+            PreparedStatement ps = cn.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+
+        }catch(Exception e){
+
+        }
+        return null;
+    }
+
+    @Override
+    public ResultSet getCanteenCoins() throws RemoteException {
+        try{
+            String sql= "SELECT sum(balance) as balance, count(id) as id from user";
+            PreparedStatement ps = cn.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+
+        }catch(Exception e){
+
+        }
+
+        return null;
+    }
+
 
 }
