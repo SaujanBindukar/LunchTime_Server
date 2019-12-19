@@ -15,7 +15,6 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
     public ResultSet showMenu() throws RemoteException {
         try {
             ResultSet rs= cn.createStatement().executeQuery("select * from menu");
-
             CachedRowSetImpl crs= new CachedRowSetImpl();
             crs.populate(rs);
             return crs;
@@ -25,7 +24,7 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
         } }
 
     @Override
-    public void addMenu(FoodMenu fm) throws RemoteException {
+    public String addMenu(FoodMenu fm) throws RemoteException {
 
         try {
             String sql = "INSERT INTO menu(food_name, food_price, picture) VALUES(?,?, ?)";
@@ -34,9 +33,14 @@ public class FoodDaoImpl extends UnicastRemoteObject implements FoodDao {
             ps.setInt(2, fm.getFood_price());
             ps.setString(3, fm.getPicture());
             ps.execute();
+            return "Success";
+
+        } catch (SQLIntegrityConstraintViolationException dup){
+            return "Duplicate";
 
         } catch (SQLException e) {
             System.out.print(e);
+            return "Error";
 
         }
 

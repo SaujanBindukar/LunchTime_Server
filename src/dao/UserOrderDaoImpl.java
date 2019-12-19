@@ -28,7 +28,7 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
                             "INNER JOIN menu ON user_order.food_id= menu.food_id " +
                             "INNER JOIN user ON user_order.id=user.id");
 
-            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs= new CachedRowSetImpl();
             crs.populate(rs);
             return crs;
 
@@ -61,6 +61,7 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
                     "INNER JOIN user ON user_order.id=user.id where date between '"+initialDate+"' and '"+finalDate+"'";
             PreparedStatement ps = cn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            crs = new CachedRowSetImpl();
             crs.populate(rs);
             return crs;
         }catch(Exception e){
@@ -82,6 +83,7 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, firstName);
             ResultSet rs = ps.executeQuery();
+            crs = new CachedRowSetImpl();
             crs.populate(rs);
             return crs;
 
@@ -98,9 +100,9 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
             ResultSet rs= cn.createStatement().executeQuery("SELECT date, sum(total_price) total_price " +
                     "FROM user_order  " +
                     "where status='Received' group by date ");
-            CachedRowSetImpl crc = new CachedRowSetImpl();
-            crc.populate(rs);
-            return  crc;
+            crs = new CachedRowSetImpl();
+            crs.populate(rs);
+            return  crs;
 
         }catch(Exception e){
             System.out.print(e);
@@ -158,6 +160,52 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
         }catch (Exception e){
             System.out.println(e);
 
+        }
+        return null;
+    }
+
+    @Override
+    public ResultSet getPendingOrder() throws RemoteException {
+        try{
+            String sql = "select user_order.order_id ,user_order.quantity, user_order.total_price," +
+                    " user_order.status,user_order.date, menu.food_name," +
+                    " user.first_name, user.last_name " +
+                    "FROM user_order " +
+                    "INNER JOIN menu ON user_order.food_id= menu.food_id " +
+                    "INNER JOIN user ON user_order.id=user.id " +
+                    "where status='Pending'";
+            PreparedStatement ps= cn.prepareStatement(sql);
+            ResultSet rs= ps.executeQuery();
+            crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    @Override
+    public ResultSet getTodaysOrder() throws RemoteException {
+        try{
+            String sql= "select user_order.order_id ,user_order.quantity, user_order.total_price, " +
+                    "user_order.status,user_order.date, menu.food_name, user.first_name, user.last_name " +
+                    "FROM user_order " +
+                    "INNER JOIN menu ON user_order.food_id= menu.food_id " +
+                    "INNER JOIN user ON user_order.id=user.id " +
+                    "where date='2019-12-18'";
+            PreparedStatement ps= cn.prepareStatement(sql);
+            ResultSet rs= ps.executeQuery();
+            crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+
+        }catch(Exception e){
+            System.out.println(e);
         }
         return null;
     }
