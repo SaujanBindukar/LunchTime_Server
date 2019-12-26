@@ -1,10 +1,7 @@
 package dao;
-
 import bll.FoodMenu;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
 
 public interface FoodDao extends Remote {

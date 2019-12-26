@@ -1,15 +1,13 @@
 package dao;
-
 import com.sun.rowset.CachedRowSetImpl;
 import utils.DbConnection;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
-import java.util.Date;
 
 public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
-    Connection cn = DbConnection.myConnection();
+    Connection cn= DbConnection.myConnection();
     public VendorDaoImpl() throws RemoteException, SQLException {
         super();
     }

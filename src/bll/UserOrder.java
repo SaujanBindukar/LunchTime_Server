@@ -3,7 +3,6 @@ package bll;
 
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class UserOrder implements java.io.Serializable {
     private static final long serialVersionUID = -7273230871957691871L;

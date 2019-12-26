@@ -3,12 +3,10 @@ package dao;
 import com.sun.rowset.CachedRowSetImpl;
 import utils.DbConnection;
 
-import javax.sql.rowset.CachedRowSet;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDao {
     Connection cn= DbConnection.myConnection();
@@ -39,9 +37,9 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
     }
 
     @Override
-    public void updateStatus(int order_id) throws RemoteException {
+    public void updateStatus(int order_id, String status) throws RemoteException {
         try{
-            String sql= "UPDATE user_order SET status= 'Received' WHERE order_id =?";
+            String sql= "UPDATE user_order SET status= '"+status+"' WHERE order_id =?";
             PreparedStatement ps =cn.prepareStatement(sql);
             ps.setInt(1, order_id);
             ps.executeUpdate();
@@ -112,6 +110,23 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
     }
 
     @Override
+    public ResultSet getSalesDetailByDate(LocalDate initialDate, LocalDate finalDate) throws RemoteException {
+        try{
+            ResultSet rs= cn.createStatement().executeQuery("SELECT date, sum(total_price) total_price" +
+                    "                    FROM user_order " +
+                    "                    where status='Received' and date between '"+initialDate+"' and '"+finalDate+"' group by date  ");
+            crs = new CachedRowSetImpl();
+            crs.populate(rs);
+            return  crs;
+
+        }catch(Exception e){
+            System.out.print(e);
+
+        }
+        return null;
+    }
+
+    @Override
     public ResultSet getTotalSales() throws RemoteException {
 
         try{
@@ -134,23 +149,42 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
             ResultSet rs= cn.createStatement().executeQuery("SELECT menu.food_name,SUM(user_order.quantity) as quantity " +
                     "FROM user_order " +
                     "INNER JOIN menu on user_order.food_id=menu.food_id " +
-                    "GROUP by user_order.food_id " +
-                    "ASC limit 5");
+                    "GROUP by user_order.food_id ");
             CachedRowSetImpl crc = new CachedRowSetImpl();
             crc.populate(rs);
             return  crc;
 
 
         }catch (Exception e){
+            System.out.println(e);
 
         }
         return null;
     }
 
     @Override
+    public ResultSet getFoodPreferenceByDate(LocalDate initialDate, LocalDate finalDate) throws RemoteException {
+        try{
+            ResultSet rs= cn.createStatement().executeQuery("SELECT menu.food_name,SUM(user_order.quantity)" +
+                    "                    FROM user_order" +
+                    "                    INNER JOIN menu on user_order.food_id=menu.food_id\n" +
+                    "                    WHERE date BETWEEN '"+initialDate+"' AND '"+finalDate+"'" +
+                    "                    GROUP by user_order.food_id");
+            CachedRowSetImpl crc = new CachedRowSetImpl();
+            crc.populate(rs);
+            return  crc;
+        }catch (Exception e){
+            System.out.println(e);
+
+        }
+
+        return null;
+    }
+
+    @Override
     public ResultSet getTopUser() throws RemoteException {
         try{
-            String sql= "SELECT id, sum(total_price) as total_price from user_order GROUP by date DESC LIMIT 5";
+            String sql= "SELECT id, sum(total_price) as total_price from user_order GROUP by id ORDER BY total_price DESC LIMIT 5";
             PreparedStatement ps=cn.prepareStatement(sql);
             ResultSet rs=ps.executeQuery();
             CachedRowSetImpl crs= new CachedRowSetImpl();
@@ -163,6 +197,26 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
         }
         return null;
     }
+
+    @Override
+    public ResultSet getTopUserByDate(LocalDate initialDate, LocalDate finalDate) throws RemoteException {
+        try{
+            String sql= "SELECT id, sum(total_price) as total_price from user_order WHERE date BETWEEN '"+initialDate+"' and '"+finalDate+"'  GROUP by id ORDER BY total_price DESC LIMIT 5";
+            PreparedStatement ps=cn.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            CachedRowSetImpl crs= new CachedRowSetImpl();
+            crs.populate(rs);
+            return crs;
+
+        }catch (Exception e){
+            System.out.println(e);
+
+        }
+
+
+        return null;
+    }
+
 
     @Override
     public ResultSet getPendingOrder() throws RemoteException {
@@ -196,7 +250,7 @@ public class UserOrderDaoImpl extends UnicastRemoteObject implements UserOrderDa
                     "FROM user_order " +
                     "INNER JOIN menu ON user_order.food_id= menu.food_id " +
                     "INNER JOIN user ON user_order.id=user.id " +
-                    "where date='2019-12-18'";
+                    "where date=CURRENT_DATE";
             PreparedStatement ps= cn.prepareStatement(sql);
             ResultSet rs= ps.executeQuery();
             crs= new CachedRowSetImpl();

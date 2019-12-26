@@ -1,6 +1,5 @@
 package dao;
 
-import bll.Student;
 import com.sun.rowset.CachedRowSetImpl;
 import utils.DbConnection;
 
