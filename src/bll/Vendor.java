@@ -3,7 +3,11 @@ package bll;
 import java.io.Serializable;
 
 public class Vendor  implements Serializable {
-    private  int vendor_id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private  int vendor_id;
     private String vendor_email;
     private String vendor_name;
     private String picture;

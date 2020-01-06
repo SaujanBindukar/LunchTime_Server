@@ -1,17 +1,17 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
+/**
+ * @author Saujan Bindukar
+ * This class is used to make the database connection.
+ */
 package utils;
-
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnection  implements Serializable {
-    public static Connection cn;
+
+	private static final long serialVersionUID = 1L;
+	public static Connection cn;
 
     public DbConnection() {
     }

@@ -1,5 +1,7 @@
+/**
+ * @author
+ */
 package bll;
-
 import java.io.Serializable;
 
 public class FoodMenu implements Serializable {
@@ -8,13 +10,15 @@ public class FoodMenu implements Serializable {
     private String picture;
     public static final long serialVersionUID =1L;
 
-
-
+    /** Constructor */
     public FoodMenu(int food_id, String food_name, int food_price, String picture) {
         this.food_id=food_id;
         this.food_name=food_name;
         this.food_price=food_price;
         this.picture = picture;
+    }
+    public FoodMenu() {
+
     }
 
     public String getPicture() {
@@ -25,9 +29,6 @@ public class FoodMenu implements Serializable {
         this.picture = picture;
     }
 
-    public FoodMenu() {
-
-    }
 
 
     public int getFood_id() {
