@@ -18,8 +18,11 @@ public class DbConnection  implements Serializable {
 
     public static Connection myConnection() {
         try {
+            //loading of the driver
             Class.forName("com.mysql.cj.jdbc.Driver");
+            //connecting to the loacal host
             cn = DriverManager.getConnection("jdbc:mysql://localhost/lunchtime", "root", "");
+            //returning connection
             return cn;
         } catch (SQLException | ClassNotFoundException var1) {
             System.out.println(var1);

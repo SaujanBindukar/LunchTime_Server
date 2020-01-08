@@ -93,7 +93,6 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
     /**
      * Fetch the vendor information using the vendor_id.
      * @param vendor_id
-     * @return
      * @throws RemoteException
      */
     @Override
@@ -115,7 +114,6 @@ public class VendorDaoImpl extends UnicastRemoteObject implements VendorDao {
 
     /**
      * Fetch all the vendor information from the Vendor table.
-     * @return
      * @throws RemoteException
      */
     @Override

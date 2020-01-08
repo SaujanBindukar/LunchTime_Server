@@ -11,6 +11,7 @@ public class Server {
 
     public static void main(String[] args) {
         try {
+        	
             /** Creating objects of interface */
             VendorDao obj = new VendorDaoImpl();
             StudentDao sd= new StudentImpl();
