@@ -3,7 +3,7 @@
  * This class is used to start the Server.
  */
 
-import dao.*;
+import com.lunchtime.dao.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
