@@ -8,6 +8,7 @@ package com.lunchtime.bll;
 import java.io.Serializable;
 
 public class Vendor  implements Serializable {
+	
     //private member data
     private  int vendor_id;
     private String vendor_email;

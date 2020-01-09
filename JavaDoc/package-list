@@ -1,4 +1,4 @@
-com.lunchtimeServer
-bll
-com.lunchtimeServer.dao
-utils
+
+com.lunchtime.bll
+com.lunchtime.dao
+com.lunchtime.utils
